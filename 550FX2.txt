@@ -56,7 +56,7 @@ TextLabel.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 TextLabel.Position = UDim2.new(0.469327301, 0, 0, 0)
 TextLabel.Size = UDim2.new(0, 44, 0, 28)
 TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Text = "飞行V3(50倍)"
+TextLabel.Text = "飞行V3(2倍)"
 TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.TextScaled = true
 TextLabel.TextSize = 14.000
@@ -137,7 +137,7 @@ nowe = false
 
 game:GetService("StarterGui"):SetCore("SendNotification", { 
 	Title = "飞行V3";
-	Text = "by tangxianchu(50倍版)";
+	Text = "by tangxianchu(2倍版)";
 	Icon = "rbxthumb://type=Asset&id=5107182114&w=150&h=150"})
 Duration = 10;
 
