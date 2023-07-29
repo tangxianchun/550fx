@@ -29,7 +29,7 @@ up.Size = UDim2.new(0, 44, 0, 28)
 up.Font = Enum.Font.SourceSans
 up.Text = "上"
 up.TextColor3 = Color3.fromRGB(0, 0, 0)
-up.TextSize = 14.000
+up.TextSize = 15.000
 
 down.Name = "下"
 down.Parent = Frame
@@ -39,7 +39,7 @@ down.Size = UDim2.new(0, 44, 0, 28)
 down.Font = Enum.Font.SourceSans
 down.Text = "下"
 down.TextColor3 = Color3.fromRGB(0, 0, 0)
-down.TextSize = 14.000
+down.TextSize = 15.000
 
 onof.Name = "onof"
 onof.Parent = Frame
@@ -104,7 +104,7 @@ closebutton.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 closebutton.Font = "SourceSans"
 closebutton.Size = UDim2.new(0, 45, 0, 28)
 closebutton.Text = "☣"
-closebutton.TextSize = 20
+closebutton.TextSize = 30
 closebutton.Position =  UDim2.new(0, 0, -1, 27)
 
 mini.Name = "minimize"
