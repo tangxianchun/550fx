@@ -17,14 +17,14 @@ main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 main.ResetOnSpawn = false
 
 Frame.Parent = main
-Frame.BackgroundColor3 = Color3.fromRGB(163, 255, 137)
-Frame.BorderColor3 = Color3.fromRGB(103, 221, 213)
+Frame.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+Frame.BorderColor3 = Color3.fromRGB(255, 215, 0)
 Frame.Position = UDim2.new(0.100320168, 0, 0.379746825, 0)
-Frame.Size = UDim2.new(0, 190, 0, 57)
+Frame.Size = UDim2.new(0, 44, 0, 28)
 
 up.Name = "上"
 up.Parent = Frame
-up.BackgroundColor3 = Color3.fromRGB(79, 255, 152)
+up.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 up.Size = UDim2.new(0, 44, 0, 28)
 up.Font = Enum.Font.SourceSans
 up.Text = "上"
@@ -33,7 +33,7 @@ up.TextSize = 14.000
 
 down.Name = "下"
 down.Parent = Frame
-down.BackgroundColor3 = Color3.fromRGB(215, 255, 121)
+down.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 down.Position = UDim2.new(0, 0, 0.491228074, 0)
 down.Size = UDim2.new(0, 44, 0, 28)
 down.Font = Enum.Font.SourceSans
@@ -43,20 +43,20 @@ down.TextSize = 14.000
 
 onof.Name = "onof"
 onof.Parent = Frame
-onof.BackgroundColor3 = Color3.fromRGB(255, 249, 74)
+onof.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 onof.Position = UDim2.new(0.702823281, 0, 0.491228074, 0)
-onof.Size = UDim2.new(0, 56, 0, 28)
+onof.Size = UDim2.new(0, 44, 0, 28)
 onof.Font = Enum.Font.SourceSans
 onof.Text = "开/关(飞)"
 onof.TextColor3 = Color3.fromRGB(0, 0, 0)
 onof.TextSize = 14.000
 
 TextLabel.Parent = Frame
-TextLabel.BackgroundColor3 = Color3.fromRGB(242, 60, 255)
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 TextLabel.Position = UDim2.new(0.469327301, 0, 0, 0)
-TextLabel.Size = UDim2.new(0, 100, 0, 28)
+TextLabel.Size = UDim2.new(0, 44, 0, 28)
 TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Text = "飞行脚本V3(触摸此处以移动,2倍版)"
+TextLabel.Text = "飞行V3(50倍)"
 TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.TextScaled = true
 TextLabel.TextSize = 14.000
@@ -64,11 +64,11 @@ TextLabel.TextWrapped = true
 
 plus.Name = "plus"
 plus.Parent = Frame
-plus.BackgroundColor3 = Color3.fromRGB(133, 145, 255)
+plus.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 plus.Position = UDim2.new(0.231578946, 0, 0, 0)
-plus.Size = UDim2.new(0, 45, 0, 28)
+plus.Size = UDim2.new(0, 44, 0, 28)
 plus.Font = Enum.Font.SourceSans
-plus.Text = "加速度2"
+plus.Text = "+50"
 plus.TextColor3 = Color3.fromRGB(0, 0, 0)
 plus.TextScaled = true
 plus.TextSize = 14.000
@@ -76,7 +76,7 @@ plus.TextWrapped = true
 
 speed.Name = "speed"
 speed.Parent = Frame
-speed.BackgroundColor3 = Color3.fromRGB(255, 85, 0)
+speed.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 speed.Position = UDim2.new(0.468421042, 0, 0.491228074, 0)
 speed.Size = UDim2.new(0, 44, 0, 28)
 speed.Font = Enum.Font.SourceSans
@@ -88,11 +88,11 @@ speed.TextWrapped = true
 
 mine.Name = "mine"
 mine.Parent = Frame
-mine.BackgroundColor3 = Color3.fromRGB(123, 255, 247)
+mine.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 mine.Position = UDim2.new(0.231578946, 0, 0.491228074, 0)
-mine.Size = UDim2.new(0, 45, 0, 29)
+mine.Size = UDim2.new(0, 44, 0, 28)
 mine.Font = Enum.Font.SourceSans
-mine.Text = "减速度2"
+mine.Text = "-50"
 mine.TextColor3 = Color3.fromRGB(0, 0, 0)
 mine.TextScaled = true
 mine.TextSize = 14.000
@@ -102,7 +102,7 @@ closebutton.Name = "Close"
 closebutton.Parent = main.Frame
 closebutton.BackgroundColor3 = Color3.fromRGB(225, 25, 0)
 closebutton.Font = "SourceSans"
-closebutton.Size = UDim2.new(0, 45, 0, 28)
+closebutton.Size = UDim2.new(0, 44, 0, 28)
 closebutton.Text = "关闭"
 closebutton.TextSize = 30
 closebutton.Position =  UDim2.new(0, 0, -1, 27)
@@ -111,8 +111,8 @@ mini.Name = "minimize"
 mini.Parent = main.Frame
 mini.BackgroundColor3 = Color3.fromRGB(192, 150, 230)
 mini.Font = "SourceSans"
-mini.Size = UDim2.new(0, 45, 0, 28)
-mini.Text = "小"
+mini.Size = UDim2.new(0, 44, 0, 28)
+mini.Text = "简"
 mini.TextSize = 30
 mini.Position = UDim2.new(0, 44, -1, 27)
 
@@ -120,8 +120,8 @@ mini2.Name = "minimize2"
 mini2.Parent = main.Frame
 mini2.BackgroundColor3 = Color3.fromRGB(192, 150, 230)
 mini2.Font = "SourceSans"
-mini2.Size = UDim2.new(0, 45, 0, 28)
-mini2.Text = "大"
+mini2.Size = UDim2.new(0, 44, 0, 28)
+mini2.Text = "繁"
 mini2.TextSize = 30
 mini2.Position = UDim2.new(0, 44, -1, 57)
 mini2.Visible = false
@@ -136,10 +136,10 @@ local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
 nowe = false
 
 game:GetService("StarterGui"):SetCore("SendNotification", { 
-	Title = "飞行脚本V3";
-	Text = "by tangxianchu(2倍版)";
+	Title = "飞行V3";
+	Text = "by tangxianchu(50倍版)";
 	Icon = "rbxthumb://type=Asset&id=5107182114&w=150&h=150"})
-Duration = 5;
+Duration = 10;
 
 Frame.Active = true -- main = gui
 Frame.Draggable = true
