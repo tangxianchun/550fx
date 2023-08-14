@@ -17,22 +17,22 @@ local TextLabel = Instance.new("TextLabel")
 
 --Properties:
 
-FightingGui.Name = "FightingGui"
+FightingGui.Name = "看什么看"
 FightingGui.Parent = game.CoreGui
 FightingGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
-Open2.Name = "Tools"
+Open2.Name = "芜湖"
 Open2.Parent = game.CoreGui
 Open2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-Open.Name = "Open"
+Open.Name = "打开！"
 Open.Parent = Open2
 Open.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Open.Position = UDim2.new(0, 0, 0.451871663, 0)
-Open.Size = UDim2.new(0, 78, 0, 50)
+Open.Size = UDim2.new(0, 75, 0, 45)
 Open.Font = Enum.Font.SourceSans
-Open.Text = "Open"
+Open.Text = "打开！"
 Open.TextColor3 = Color3.fromRGB(250, 0, 0)
 Open.TextScaled = true
 Open.TextSize = 14.000
@@ -41,13 +41,13 @@ Open.MouseButton1Down:Connect(function()
  FightingGui.Enabled = true
 end)
 
-Close.Name = "Close"
+Close.Name = "关掉！"
 Close.Parent = main
 Close.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 Close.Position = UDim2.new(1, 0, -0.226244345, 0)
 Close.Size = UDim2.new(0, 60, 0, 50)
 Close.Font = Enum.Font.SourceSans
-Close.Text = "X"
+Close.Text = "关掉！"
 Close.TextColor3 = Color3.fromRGB(0, 0, 0)
 Close.TextScaled = true
 Close.TextSize = 14.000
