@@ -55,22 +55,15 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/
 -- 🔥Inferno Hub V2:
 
 loadstring(game:HttpGet("https://github.com/SadlekAski/Scripts/raw/main/Blade%20Ball/Equip%20any%20ability.lua"))()
- end);
- 
- a:label("不行")
+ end)
  
  a:button("Luax-crack",function() 
     loadstring(game:HttpGet("https://raw.githubusercontent.com/OopssSorry/luax-crack/main/loader.lua"))()
  end) 
  
- a:label("一般般")
- 
  a:button("nexus",function() 
      loadstring(game:HttpGet("https://raw.githubusercontent.com/s-o-a-b/nexus/main/loadstring"))()
  end) 
- 
- a:label("emm")
- 
  a:button("free-fuji",function() 
      loadstring(game:HttpGet("https://shz.al/~free-fuji-v2"))()
  end) 
@@ -91,6 +84,12 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/ma
  
  a:label("我喜欢用")
 
+a:button("ThatSick",function()
+ script_key=""; -- Put your key here if you have VIP
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ThatSick/HighlightMM2/main/Main"))()
+end)
+
+a:label("密钥：INDISCORD")
   
  b:toggle("摆设",true,function(v) 
      
