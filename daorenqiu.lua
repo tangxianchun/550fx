@@ -19,17 +19,13 @@
 local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
   
- a:button("SymphonyHub",function() 
+ a:button("SymphonyHub『需密钥』",function() 
      local a,b,c,d=loadstring,request or http_request or (http and http.request) or (syn and syn.request),assert,"https://itsjidy.github.io/SymphonyHub/Loader.html"c(a and b, "Your Executor does not support.")a(b({Url=d,Method="GET"}).Body)()
  end) 
- 
- a:label("需要密钥")
  
   a:button("REDzHUB",function() 
      loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/BladeBall/main/eng"))()
  end) 
- 
- a:label("挺好用的")
  
  a:button("catsus",function() 
     _G.Config = {
@@ -42,8 +38,6 @@ _G.UI_Size = 30 -- config ui size
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/-beta-/main/AutoParry.lua"))()
  end) 
- 
- a:label("还行吧")
  
  a:button("Red Circl and Inferno",function() 
      --⭕Red Circle Auto-Block:
@@ -64,13 +58,11 @@ loadstring(game:HttpGet("https://github.com/SadlekAski/Scripts/raw/main/Blade%20
  a:button("nexus",function() 
      loadstring(game:HttpGet("https://raw.githubusercontent.com/s-o-a-b/nexus/main/loadstring"))()
  end) 
- a:button("free-fuji",function() 
+ a:button("free-fuji『密钥：FreeFuji』",function() 
      loadstring(game:HttpGet("https://shz.al/~free-fuji-v2"))()
  end) 
  
- a:label("密钥：FreeFuji")
- 
- a:button("Hosvile",function() 
+ a:button("Hosvile『主』",function() 
      _G.Config = {
     MinDistance = 10,
     DelBallSpeed = 0.000000000000000001,
@@ -81,15 +73,11 @@ _G.UI_Size = 10 -- config ui size
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3ABlade%20Ball%20Parry%20V4.0.0",true))()
  end) 
- 
- a:label("我喜欢用")
 
-a:button("ThatSick",function()
+a:button("ThatSick『密钥：INDISCORD』",function()
  script_key=""; -- Put your key here if you have VIP
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ThatSick/HighlightMM2/main/Main"))()
 end)
-
-a:label("密钥：INDISCORD")
   
  b:toggle("摆设",true,function(v) 
      
