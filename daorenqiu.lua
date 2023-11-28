@@ -18,6 +18,10 @@
  
 local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
+
+ a:button("GenesisZ_Loader",function() 
+  loadstring(game:Https("https://raw.githubusercontent.com/SyrTop/GenZ/main/GenesisLoader/GenesisZ_Loader.txt"))()
+ end)
   
  a:button("SymphonyHub『需密钥』",function() 
      local a,b,c,d=loadstring,request or http_request or (http and http.request) or (syn and syn.request),assert,"https://itsjidy.github.io/SymphonyHub/Loader.html"c(a and b, "Your Executor does not support.")a(b({Url=d,Method="GET"}).Body)()
