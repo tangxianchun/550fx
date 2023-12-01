@@ -32,8 +32,6 @@ getgenv().AutoGetVelocity = false -- Need The Ball To Be Stopped
 getgenv().AutoClickKeyBind = "X" -- Need The Ball To Be Stopped 
 
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/fd07660d92cb26891e9acfab9f0c6ba4.lua"))()
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/autoparrybest"))()
  end)
 
  a:button("xdevslasher",function()
