@@ -1,10 +1,10 @@
 return {
-["tangxianchu"]
-["UserId"]
-["TANGXIANCHUN"]
-["cmhehebeb"]
-["rushshshseek9"]
-["SunjunyuSSS"]
+["tangxianchu"] = true,
+["UserId"] = true,
+["TANGXIANCHUN"] = true,
+["cmhehebeb"] = true,
+["rushshshseek9"] = true,
+["SunjunyuSSS"] = true,
 ["xwzz123456aq"] = true,
 ["plmnkoijbvhuygcxfty"] = true,
 ["ymym999a"] = true,
