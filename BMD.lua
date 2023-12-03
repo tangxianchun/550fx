@@ -78,5 +78,5 @@ return {
 ["gghjsydhhsijrjdjsfdj"] = true,
 ["whddnb_boors"] = true,
 ["Qfcwnnz"] = true,
-  
+["lyklsans"] = true,
 }
