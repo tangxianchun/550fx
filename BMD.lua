@@ -77,5 +77,6 @@ return {
 ["qazazure"] = true,
 ["gghjsydhhsijrjdjsfdj"] = true,
 ["whddnb_boors"] = true,
-["Qfcwnnz"] = true
+["Qfcwnnz"] = true,
+  
 }
