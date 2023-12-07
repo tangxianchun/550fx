@@ -18,6 +18,19 @@
  
 local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
+
+a:button("刀刃球",function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/biade%20ball.txt"))()
+ end)
+
+a:button("星月刀刃球 V2",function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/daorenqiu-V2.lua"))()
+ end)
+
+a:button("星月刀刃球 V3",function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/daorenqiu-V3.lua"))()
+ end)
+
  a:button("DenDenZYT KEY-VIOLAFOUNTAIN",function()
   loadstring(game:HttpGet("https://raw.githubusercontent.com/DenDenZYT/Main/main/FreeAtreusHubKeySystem"))()
  end)
