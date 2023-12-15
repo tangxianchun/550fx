@@ -19,6 +19,10 @@
 local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
 
+a:button("Sirius",function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/xdevslasher/Siriusisbetter/main/xyz.bb.lua",true))()
+ end)
+
 a:button("星月刀刃球 V1",function()
   loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/biade%20ball.txt"))()
  end)
