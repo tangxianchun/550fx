@@ -1,6 +1,6 @@
 local CoreGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/pyawhh/UI-GUI/main/%E6%B6%88%E6%81%AF%E6%8F%90%E9%86%92%E5%8A%A0%E5%AF%86.txt"))()
 local bailib = loadstring(game:HttpGet("https://raw.githubusercontent.com/pyawhh/UI-GUI/main/uiss.txt"))()
-local win = bailib:new("清风明月🌕 | DOORS",'')
+local win = bailib:new("星月交辉☪️ | DOORS",'')
 local Tab = win:Tab("主要功能", "7743875879")
 local Section = Tab:section("脚本公告")
 Section:Label("『日月星辰工作室』")
