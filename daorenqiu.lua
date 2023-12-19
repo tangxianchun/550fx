@@ -2,6 +2,7 @@
 
  local win = lib:Create("星月交辉","刀刃球") 
  local a = win:tab("脚本",true) 
+ local d win:tab("脚本",false)
  local b = win:tab("其他",false)
  local c = win:tab("信息",false)  
  
@@ -98,7 +99,7 @@ loadstring(game:HttpGet("https://github.com/SadlekAski/Scripts/raw/main/Blade%20
      loadstring(game:HttpGet("https://shz.al/~free-fuji-v2"))()
  end) 
  
- a:button("Hosvile『主』",function() 
+ d:button("Hosvile『主』",function() 
      _G.Config = {
     MinDistance = 10,
     DelBallSpeed = 0.000000000000000001,
@@ -110,7 +111,7 @@ _G.UI_Size = 10 -- config ui size
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3ABlade%20Ball%20Parry%20V4.0.0",true))()
  end) 
 
-a:button("ThatSick『密钥：INDISCORD』",function()
+d:button("ThatSick『密钥：INDISCORD』",function()
  script_key=""; -- Put your key here if you have VIP
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ThatSick/HighlightMM2/main/Main"))()
 end)
