@@ -80,4 +80,6 @@ return {
 ["Qfcwnnz"] = true,
 ["lyklsans"] = true,
 ["spring654188"] = true,
+["jntmngm114514"] = true,
+["widbwibb"] = true,
 }
