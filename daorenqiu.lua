@@ -2,7 +2,7 @@
 
  local win = lib:Create("星月交辉","刀刃球") 
  local a = win:tab("脚本",true) 
- local d win:tab("脚本",false)
+ local d = win:tab("脚本",false)
  local b = win:tab("其他",false)
  local c = win:tab("信息",false)  
  
@@ -115,6 +115,11 @@ d:button("ThatSick『密钥：INDISCORD』",function()
  script_key=""; -- Put your key here if you have VIP
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ThatSick/HighlightMM2/main/Main"))()
 end)
+
+d:button("Bedol-Hub-beta",function()
+  
+loadstring(game:HttpGet("https://raw.githubusercontent.com/sirapobsriumang/Bedol-Hub-beta/main/Bladeball"))()
+ end)
   
  b:toggle("摆设",true,function(v) 
      
