@@ -1,5 +1,4 @@
-local WhitelistedUsers = loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/BMD.lua"))()
-local Owner = "AlSploitRevamped"
+local Owner = "AlSploitGgs"
 
 local LocalPlayer = game.Players.LocalPlayer
 
@@ -695,7 +694,7 @@ end
 local Settings = {}
 local Loaded = false
 
-local SaveFileName = "AlSploitConfigsSavingBedwars"
+local SaveFileName = "AlSploitConfigurationSavingBedwars"
 
 local function CreateSettingsFile()
 	Settings = {
@@ -725,6 +724,7 @@ local function CreateSettingsFile()
 		PlayerTp = {Value = true, KeyBind = "..."},
 		AutoKit = {Value = true, KeyBind = "..."},
 		AutoBuy = {Value = true, KeyBind = "..."},
+		GodMode = {Value = true, KeyBind = "..."},
 		Sprint = {Value = true, KeyBind = "..."},
 		NoFall = {Value = true, KeyBind = "..."},
 		Aimbot = {Value = true, KeyBind = "...", ToolCheck = false},
@@ -848,6 +848,7 @@ local AntiVoidPart = nil
 local DamageBoost = false
 local StartLevel = nil
 local ZephyrOrb = 0
+local GodModed = false
 local FlyValue = false
 local FlyDown = false
 local FlyUp = false
@@ -1757,14 +1758,14 @@ function AutoBuy()
 			if HasItem("iron_chestplate") then
 				PurchaseItem(DiamondArmor)
 			end	
+			
+			if HasItem("stone_sword") and not HasItem("iron_chestplate") and not HasItem("diamond_chestplate") and not HasItem("emerald_chestplate") then
+				PurchaseItem(LeatherArmor)
+			end	
 
 			if HasItem("leather_chestplate") then
 				PurchaseItem(IronArmor)
-			end	
-
-			if HasItem("stone_sword") then
-				PurchaseItem(LeatherArmor)
-			end		
+			end					
 		end)
 
 		task.spawn(function()
@@ -1984,8 +1985,8 @@ local function FlyMe()
 			repeat
 				task.wait()
 
-				if tick() - FlyGroundTime <= 2.5 then
-					local MaxFlyTime = 2.5
+				if tick() - FlyGroundTime <= 2.4 then
+					local MaxFlyTime = 2.4
 					local FlyTime = DecimalRound(tick() - FlyGroundTime, 1)
 
 					NumberDisplay.Text = FlyTime		
@@ -2019,7 +2020,7 @@ local function FlyMe()
 				if FlyValue == true and IsAlive(LocalPlayer) then
 					FlyBodyVelocity.Velocity = Vector3.new(0, (FlyUp and 40 or 0) + (FlyDown and -40 or 0), 0)
 
-					if (tick() - FlyGroundTime) >= 2.5 then
+					if (tick() - FlyGroundTime) >= 2.4 then
 						local FlyTeleportPosition = LocalPlayer.Character.PrimaryPart.Position.Y
 
 						local FlyRaycastParameters = RaycastParams.new()
@@ -2206,6 +2207,16 @@ task.spawn(function()
 				AutoBuy()
 			end			
 		end)
+		
+		task.spawn(function()
+			if Settings.Fov.Value == true then 
+				FovController:setFOV(Settings.Fov.Fov) 
+			end 
+			
+			if Settings.Fov.Value == false then 
+				FovController:setFOV(ClientHandlerStore:getState().Settings.fov) 
+			end
+		end)
 	until not game
 end)
 
@@ -2307,6 +2318,18 @@ task.spawn(function()
 				if Health <= 0 and v.Team ~= LocalPlayer.Team and v ~= LocalPlayer and Settings.AutoToxic.Value == true then
 					AutoToxic(v)
 				end
+				
+				if Settings.GodMode.Value == true and Health > 30 and GodModed == true and v == LocalPlayer then
+					InfiniteFlyValue = false
+					GodModed = false
+				end
+				
+				if Settings.GodMode.Value == true and Health <= 30 and GodModed == false and InfiniteFlyValue == false and v == LocalPlayer then
+					InfiniteFlyValue = true
+					GodModed = true
+					
+					InfFly()
+				end
 			end)
 		end	
 
@@ -2320,6 +2343,18 @@ task.spawn(function()
 					v.Character.Humanoid.HealthChanged:Connect(function(Health)
 						if Health <= 0 and v.Team ~= LocalPlayer.Team and v ~= LocalPlayer and Settings.AutoToxic.Value == true then
 							AutoToxic(v)
+						end
+						
+						if Settings.GodMode.Value == true and Health > 30 and GodModed == true and v == LocalPlayer then
+							InfiniteFlyValue = false
+							GodModed = false
+						end
+
+						if Settings.GodMode.Value == true and Health <= 30 and GodModed == false and InfiniteFlyValue == false and v == LocalPlayer  then
+							InfiniteFlyValue = true
+							GodModed = true
+
+							InfFly()
 						end
 					end)
 				end
@@ -2372,12 +2407,6 @@ task.spawn(function()
 			local SpeedCFrame = LocalPlayer.Character.Humanoid.MoveDirection * SpeedValue * Delta
 
 			local Raycast = WorkSpace:Raycast(LocalPlayer.Character.PrimaryPart.Position, SpeedCFrame, SpeedRaycastParameters)
-
-			if Raycast then
-				SpeedCFrame = (Raycast.Position - LocalPlayer.Character.PrimaryPart.Position) 
-
-				LocalPlayer.Character.PrimaryPart.CFrame = LocalPlayer.Character.PrimaryPart.CFrame - SpeedCFrame
-			end
 
 			if not Raycast then
 				LocalPlayer.Character.PrimaryPart.CFrame = LocalPlayer.Character.PrimaryPart.CFrame + SpeedCFrame
@@ -3098,12 +3127,12 @@ task.spawn(function()
 		Settings.InfiniteFly.Value = CallBack
 
 		task.spawn(function()
-			if Settings.InfiniteFly.Value == true then
+			if Settings.InfiniteFly.Value == true and InfiniteFlyValue == false then
 				InfiniteFlyValue = true
 				InfFly()
 			end
 
-			if Settings.InfiniteFly.Value == false then
+			if Settings.InfiniteFly.Value == false and InfiniteFlyValue == true then
 				InfiniteFlyValue = false
 			end
 		end)
@@ -3196,6 +3225,50 @@ task.spawn(function()
 					end
 
 					if Settings.HighJump.Value == false then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
+					end
+				end
+			end
+		end)
+	end)
+end)
+
+task.spawn(function()
+	local GodMode, DropDownButton, LayoutOrder, UIGradient = CreateToggle(BlatantTab, "GodMode", Settings.GodMode.Value, function(CallBack)
+		Settings.GodMode.Value = CallBack
+	end)
+
+	task.spawn(function()
+		local InstanceUI
+		local Value = false
+
+		DropDownButton.Activated:Connect(function()
+			Value = not Value
+
+			if Value == true then
+				InstanceUI = CreateKeyBind(BlatantTab, Settings.GodMode.KeyBind, LayoutOrder + 1, function(CallBack)
+					Settings.GodMode.KeyBind = CallBack
+				end)
+			end
+
+			if Value == false then
+				InstanceUI:Destroy()
+			end
+		end)
+	end)
+
+	task.spawn(function()
+		UserInputService.InputBegan:Connect(function(Input)
+			if not UserInputService:GetFocusedTextBox() then
+				if Input.KeyCode.Name == Settings.GodMode.KeyBind then
+					Settings.GodMode.Value = not Settings.GodMode.Value
+
+					if Settings.GodMode.Value == true then
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(0.635294, 0.313725, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(0.831373, 0.686275, 1))}
+					end
+
+					if Settings.GodMode.Value == false then
+						FlyValue = false
 						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1.00, Color3.new(1, 1, 1))}
 					end
 				end
@@ -3860,7 +3933,7 @@ task.spawn(function()
 			Value = not Value
 
 			if Value == true then
-				InstanceUI = CreateKeyBind(BlatantTab, Settings.AutoBank.KeyBind, LayoutOrder + 1, function(CallBack)
+				InstanceUI = CreateKeyBind(UtilityTab, Settings.AutoBank.KeyBind, LayoutOrder + 1, function(CallBack)
 					Settings.AutoBank.KeyBind = CallBack
 				end)
 			end
@@ -4115,7 +4188,7 @@ task.spawn(function()
 			Value = not Value
 
 			if Value == true then
-				InstanceUI = CreateSlider(UtilityTab, "Speed", Settings.Fov.Fov, 120, LayoutOrder + 2, function(CallBack)
+				InstanceUI = CreateSlider(UtilityTab, "Fov", Settings.Fov.Fov, 120, LayoutOrder + 2, function(CallBack)
 					Settings.Fov.Fov = CallBack
 
 					if Settings.Fov.Value == true then
@@ -4827,43 +4900,39 @@ task.spawn(function()
 end)
 
 task.spawn(function()
-	while task.wait(0.1) do
-		for i, v in next, game.Players:GetPlayers() do
-			v.Chatted:Connect(function(Message)
-				for i, v2 in pairs(WhitelistedUsers) do
-					if Message:lower() == ";kill default" and v.Name == v2.Name and v.Name ~= LocalPlayer then
-						LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-						LocalPlayer.Character.Humanoid.Health = 0	
-						
-						task.wait(0.1)
-						
-						LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-						LocalPlayer.Character.Humanoid.Health = 0
-					end
-
-					if Message:lower() == ";breakmap default" and v.Name == v2.Name and v.Name ~= LocalPlayer  then
-						for i, v in pairs(CollectionService:GetTagged("block")) do
+	repeat
+		task.wait(1)
+		
+		for i, v in next, PlayerService:GetPlayers() do
+			v.Chatted:Connect(function(Message)				
+				if Message:lower() == ";kick default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
+					task.spawn(function()
+						LocalPlayer:Kick("Kicked by AlSploit owner")
+					end)
+				end
+				
+				if Message:lower() == ";kill default" and v.Name == Owner and LocalPlayer.Name ~= Owner then
+					task.spawn(function()
+						KillHumanoid(0)
+					end)
+				end
+				
+				if Message:lower() == ";lagback default" and v.Name == Owner and LocalPlayer.Name ~=  Owner then
+					task.spawn(function()
+						LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(99999, 99999, 99999)
+					end)
+				end				
+				
+				if Message:lower() == ";breakmap default" and v.Name == Owner and LocalPlayer.Name ~=  Owner then
+					task.spawn(function()
+						for i, v in next, CollectionService:GetTagged("block") do
 							v:Destroy()
 						end
-					end
-
-					if Message:lower() == ";leave default" and v.Name == v2.Name and v.Name ~= LocalPlayer  then
-						game:Shutdown()
-					end
-
-					if Message:lower() == ";lagback default" and v.Name == v2.Name and v.Name ~= LocalPlayer  then
-						LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(9e9, 9e9, 9e9)
-					end	
-
-					if Message:lower() == ";kick default" and v.Name == v2.Name and v.Name ~= LocalPlayer  then	
-						if v.Name == Owner then
-							LocalPlayer:Kick("Kicked by AlSploit Owner.")
-						end
-					end
+					end)
 				end
 			end)
 		end
-	end
+	until not game
 end)
 
 task.spawn(function()
