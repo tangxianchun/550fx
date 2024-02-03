@@ -3,8 +3,8 @@ local Players = game:GetService('Players');
 local localplayer = Players.LocalPlayer;
 -- semicolon but cool :sunglasses:
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/9Strew/roblox/main/proc/jans"))()
-local Esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/9Strew/roblox/main/proc/kiriotesp"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/EvadeUI.lua"))()
+local Esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/EvadeESP.lua"))()
 Esp.Enabled = false
 Esp.Tracers = false
 Esp.Boxes = false
