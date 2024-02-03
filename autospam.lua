@@ -1,3 +1,10 @@
+local CoreGui = game:GetService("StarterGui")
+CoreGui:SetCore("SendNotification", {
+    Title = "星月交辉刀刃球",
+    Text = "已启动自动连击",
+    Duration = 5, 
+})
+
 local function get_plr()
   return game.Players.LocalPlayer
 end
