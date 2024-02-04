@@ -1,14 +1,19 @@
+
+-- 获取游戏服务
 local CoreGui = game:GetService("StarterGui")
+-- 发送通知
 CoreGui:SetCore("SendNotification", {
     Title = "星月交辉刀刃球",
     Text = "已启动自动连击",
     Duration = 5, 
 })
 
+-- 获取本地玩家
 local function get_plr()
   return game.Players.LocalPlayer
 end
 
+-- 获取本地玩家角色
 local function get_plrChar()
   local plrChar = get_plr().Character
   if plrChar then
@@ -16,6 +21,7 @@ local function get_plrChar()
   end
 end
 
+-- 获取本地玩家角色的根部分
 local function get_plrRP()
   local plrRP = get_plrChar():FindFirstChild("HumanoidRootPart")
   if plrRP then
@@ -23,12 +29,14 @@ local function get_plrRP()
   end
 end
 
+-- 让玩家跳跃
 local function playerJump()
   pcall(function()
     game.Players.LocalPlayer.Character.Humanoid.Jump = true
   end)
 end
 
+-- 获取存活玩家数量
 local function get_PlayersNumber()
   local Alive = workspace:WaitForChild("Alive", 20):GetChildren()
   local PlayersNumber = 0
@@ -40,6 +48,7 @@ local function get_PlayersNumber()
   return PlayersNumber
 end
 
+-- 获取最近的代理玩家
 local function get_ProxyPlayer()
   local Players = workspace:WaitForChild("Alive"):GetChildren()
   local Distance = math.huge
@@ -59,6 +68,7 @@ local function get_ProxyPlayer()
   return Player
 end
 
+-- 点击按钮
 local function Click_Button()
   task.spawn(function()
     local plr = game.Players.LocalPlayer
@@ -78,6 +88,7 @@ local function Click_Button()
   end)
 end
 
+-- 检测是否点击按钮
 task.spawn(function()
   while task.wait() do
     if getgenv().SpamClickA then
@@ -86,6 +97,7 @@ task.spawn(function()
   end
 end)
 
+-- 检测是否为垃圾球
 local function DetectSpam()
   local Balls = workspace:WaitForChild("Balls", 20)
   
