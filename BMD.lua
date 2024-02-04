@@ -63,7 +63,7 @@ return {
 ["yuihghghg"] = true,
 ["yuihuiniao"] = true,
 ["QMQQAQQ"] = true,
-["rushshshseek9"] = true,
+["FENGCROSS"] = true,
 ["tangxianchu"] = true,
 ["zyzqwp"] = true,
 ["as30326"] = true,
