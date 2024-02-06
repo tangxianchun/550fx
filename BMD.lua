@@ -1,9 +1,10 @@
 return {
+--开发者白名单
 ["tangxianchu"] = true,
-["UserId"] = true,
 ["TANGXIANCHUN"] = true,
+["FENGCROSS"] = true,
+--普通白名单
 ["cmhehebeb"] = true,
-["rushshshseek9"] = true,
 ["SunjunyuSSS"] = true,
 ["xwzz123456aq"] = true,
 ["plmnkoijbvhuygcxfty"] = true,
@@ -63,7 +64,6 @@ return {
 ["yuihghghg"] = true,
 ["yuihuiniao"] = true,
 ["QMQQAQQ"] = true,
-["FENGCROSS"] = true,
 ["tangxianchu"] = true,
 ["zyzqwp"] = true,
 ["as30326"] = true,
