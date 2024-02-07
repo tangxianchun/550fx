@@ -4,6 +4,7 @@ return {
 ["TANGXIANCHUN"] = true,
 ["FENGCROSS"] = true,
 --普通白名单
+["010Zachary_MNB"] = true,
 ["cmhehebeb"] = true,
 ["SunjunyuSSS"] = true,
 ["xwzz123456aq"] = true,
