@@ -3,6 +3,7 @@ return {
 ["tangxianchu"] = true,
 ["TANGXIANCHUN"] = true,
 ["FENGCROSS"] = true,
+["123fa98"] = true,
 --普通白名单
 ["010Zachary_MNB"] = true,
 ["cmhehebeb"] = true,
