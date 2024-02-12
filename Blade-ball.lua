@@ -11,18 +11,12 @@ local SectionLeft = Tab:AddSection('Main',"left")
 local SectionRight = Tab:AddSection('ESP',"right")
 
 SectionLeft:AddToggle('自动击球',false,function(val)
-	_G.killAuraEnabled = true
-_G.infiniteStamina = true
-_G.killAuraRange = 20
-
      _G.Config = {
     MinDistance =0.5,
     DelBallSpeed =0.25,
     Battingtime =0.0001,
     CloseCombatMode = "MinDistance"
 }
-
-_G.UI_Size = 100 -- config ui size
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3ABlade%20Ball%20Parry%20V4.0.0",true))()
 end)
