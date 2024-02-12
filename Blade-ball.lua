@@ -22,13 +22,11 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/ma
 end)
 
 SectionLeft:AddToggle('自动击球[2]',false,function(val)
-    local link = "https://raw.githubusercontent.com/tangxianchun/550fx/main/autoParry2.lua"
-loadstring(game:HttpGet(link))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autoParry2.lua"))()
   end)
 
 SectionLeft:AddToggle('自动击球[3]',false,function(val)
-    local link = "https://raw.githubusercontent.com/tangxianchun/550fx/main/autoParry1.lua"
-loadstring(game:HttpGet(link))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autoParry1.lua"))()
   end)
 
 SectionLeft:AddToggle('自动连击',false,function(val)
@@ -41,11 +39,11 @@ SectionLeft:AddToggle('自动连击[2]',false,function(val)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autospam.lua"))()
   end)
 
-SectionLeft:AddSlider('无,1,100,4,function(val)
+SectionLeft:AddSlider('无',1,100,4,function(val)
 	print('slide',val)
 end)
 
-SectionRight:AddToggle('无,false,function(val)
+SectionRight:AddToggle('无',false,function(val)
 	print('toggle',val)
 end)
 
