@@ -44,8 +44,7 @@ end)
 
 SectionLeft:AddToggle('自动连击[2]',false,function(val)
     getgenv().SpamSpeed = 100
-    local link = "https://raw.githubusercontent.com/tangxianchun/550fx/main/autospam.lua"
-loadstring(game:HttpGet(link))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autospam.lua"))()
   end)
 
 SectionLeft:AddSlider('无,1,100,4,function(val)
