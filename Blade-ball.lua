@@ -4,7 +4,7 @@ local Window = NEVERWIN:AddWindow("星月刀刃球","刀刃球 | VERSION BETA 1.
 
 Window:AddTabLabel('Tab Section')
 
-local Tab = Window:AddTab('Main')
+local Tab = Window:AddTab('功能')
 
 local SectionLeft = Tab:AddSection('Main',"left")
 
@@ -25,17 +25,13 @@ SectionLeft:AddToggle('自动击球[2]',false,function(val)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autoParry2.lua"))()
   end)
 
-SectionLeft:AddToggle('自动击球[3]',false,function(val)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autoParry1.lua"))()
-  end)
-
-SectionLeft:AddToggle('自动连击',false,function(val)
-	getgenv().SpamSpeed = 100
+SectionLeft:AddToggle('连击:使用方法按住防御键',false,function(val)
+	getgenv().SpamSpeed = 1
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3ABlade%20Ball%20Spam",true))()
 end)
 
-SectionLeft:AddToggle('自动连击[2]',false,function(val)
-    getgenv().SpamSpeed = 100
+SectionLeft:AddToggle('自动连击',false,function(val)
+    getgenv().SpamSpeed = 1
     loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autospam.lua"))()
   end)
 
@@ -49,4 +45,10 @@ end)
 
 
 
-local Tab = Window:AddTab('info')
+local Tab = Window:AddTab('信息')
+
+local a = Tab:AddSection('作者',"left")
+
+local b = Tab:AddSection('日月星辰工作室',"right")
+
+a:AddLabel('日月 official | 日月~ikWYZ')
