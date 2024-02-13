@@ -1,5 +1,5 @@
 return {
 --开发者白名单
-["tangxianch"] = true,
+["tangxianchu"] = true,
 ["TANGXIANCHUN"] = true,
 }
