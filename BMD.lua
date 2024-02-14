@@ -1,8 +1,8 @@
 return {
 --开发者白名单
-["tangxianchu"] = true,
+["tangxianchu"] = false,
 ["TANGXIANCHUN"] = true,
-["FENGCROSS"] = true,
+["FENGCROSS"] = false,
 ["123fa98"] = true,
 --普通白名单
 ["010Zachary_MNB"] = true,
