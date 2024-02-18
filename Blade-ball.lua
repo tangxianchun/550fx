@@ -26,14 +26,34 @@ SectionLeft:AddToggle('自动击球[2]',false,function(val)
   end)
 
 SectionLeft:AddToggle('连击:使用方法按住防御键',false,function(val)
-	getgenv().SpamSpeed = 1
+	getgenv().SpamSpeed = 25
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3ABlade%20Ball%20Spam",true))()
 end)
+
+SectionLeft:AddToggle('连击:点击防御键，再点一下关闭',false,function(val)
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title = "提示",
+    Text = "点击防御键自动防御，再点一下关闭",
+    Duration = 5
+})
+
+getgenv().SpamSpeed = 25 -- 1-25
+
+if not getgenv().exeSpam then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/Toggle%20Block%20Spam",true))()
+end
+
+getgenv().exeSpam = true
+	end)
 
 SectionLeft:AddToggle('自动连击',false,function(val)
     getgenv().SpamSpeed = 1
     loadstring(game:HttpGet("https://raw.githubusercontent.com/tangxianchun/550fx/main/autospam.lua"))()
   end)
+
+SectionLeft:AddToggle('自动冲突(跟自动连击差不多)',false,function(val)
+loadstring(game:HttpGet("https://pastebin.com/raw/t2391h1A"))()
+end)
 
 SectionLeft:AddSlider('无',1,100,4,function(val)
 	print('slide',val)
