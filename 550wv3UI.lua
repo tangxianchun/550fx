@@ -411,7 +411,7 @@ end
       Open.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
       Open.Size = UDim2.new(0, 61, 0, 32)
       Open.Font = Enum.Font.SourceSans
-      Open.Text = "『V3.3.5」"
+      Open.Text = "「星．辰」"
       Open.TextColor3 = Color3.fromRGB(255, 215, 0)
       Open.TextSize = 15.000
       Open.Active = true
