@@ -1,6 +1,6 @@
 return {
 --开发者白名单
-["tangxianchu"] = true,
+["tangxianch"] = true,
 ["TANGXIANCHUN"] = true,
 ["FENGCROSS"] = true,
 ["123fa98"] = true,
