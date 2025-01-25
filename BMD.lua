@@ -70,13 +70,3 @@ local whitelist = {
     "jntmngm114514qwq",
     "chinayyds29"
 }
-
--- 示例函数：检查某个用户是否在白名单中
-local function checkInWhitelist(user)
-    for _, v in ipairs(whitelist) do
-        if v == user then
-            return true
-        end
-    end
-    return false
-end
