@@ -1,4 +1,4 @@
-return {
+local whitelist = {
 --开发者白名单
 
 "tangxianchu" ,
