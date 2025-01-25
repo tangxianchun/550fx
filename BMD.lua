@@ -84,5 +84,5 @@ local originalWhitelist = {
     ["widbwibb"] = true,
     ["jntmngm114514qwq"] = true,
     ["chinayyds29"] = true,
-    [3779526437] = true
+    ["3779526437"] = true
 }
