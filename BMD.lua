@@ -1,6 +1,6 @@
 return {
 --开发者白名单
-["3779526437"] = true,
+["26437"] = true,
 ["TANGXIANCHUN"] = true,
 ["FENGCROSS"] = true,
 ["123fa98"] = true,
@@ -84,4 +84,7 @@ return {
 ["widbwibb"] = true,
 ["jntmngm114514qwq"] = true,
 ["chinayyds29"] = true,
+}
+UserId {
+["3779526437"] = true
 }
