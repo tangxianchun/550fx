@@ -1,6 +1,6 @@
---[[return {
+return {
 --开发者白名单
-[""] = true,
+["tangxianchu"] = true,
 ["TANGXIANCHUN"] = true,
 ["FENGCROSS"] = true,
 ["123fa98"] = true,
@@ -84,7 +84,4 @@
 ["widbwibb"] = true,
 ["jntmngm114514qwq"] = true,
 ["chinayyds29"] = true,
-}]]
-UserId {
-["3779526437"] = true
 }
