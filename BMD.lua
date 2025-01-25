@@ -1,6 +1,6 @@
 local originalWhitelist = {
     --开发者白名单
-    ["tangxianch"] = true,
+    ["tangxianchu"] = true,
     ["TANGXIANCHUN"] = true,
     ["FENGCROSS"] = true,
     ["123fa98"] = true,
