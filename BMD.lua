@@ -85,10 +85,28 @@ local originalWhitelist = {
     ["jntmngm114514qwq"] = true,
     ["chinayyds29"] = true
 }
+else
+-- 定义用户ID白名单表
+local userIdWhitelist = {
+    [123456789] = true, -- 请将这些示例ID替换为实际的用户ID
+    [987654321] = true
+}
 
-local uniqueWhitelist = {}
-for username, _ in pairs(originalWhitelist) do
-    uniqueWhitelist[username] = true
+--[[定义检查用户ID是否在白名单的函数
+local function checkUserIdInWhitelist()
+    local player = game.Players.LocalPlayer
+    if not player then
+        return false
+    end
+    local userId = player.UserId
+    return userIdWhitelist[userId] ~= nil
 end
--- 添加你的UserId
-uniqueWhitelist[tostring(3779526437)] = true
+
+-- 示例使用，假设在某个需要检查的地方调用
+if checkUserIdInWhitelist() then
+    print("该玩家在用户ID白名单中，可以执行相关操作")
+    -- 在这里添加允许执行的游戏逻辑代码，例如解锁特殊功能、进入特定区域等
+else
+    print("该玩家不在用户ID白名单中，限制相关操作")
+    -- 在这里添加限制操作的代码，例如禁止使用某些道具、禁止访问特定场景等
+ended]]
