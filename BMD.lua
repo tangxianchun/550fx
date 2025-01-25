@@ -1,6 +1,6 @@
 return {
 --开发者白名单
-["26437"] = true,
+[""] = true,
 ["TANGXIANCHUN"] = true,
 ["FENGCROSS"] = true,
 ["123fa98"] = true,
