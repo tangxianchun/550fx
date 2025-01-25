@@ -1,6 +1,6 @@
 local originalWhitelist = {
     --开发者白名单
-    ["tangxianchu"] = true,
+    ["tangxianch"] = true,
     ["TANGXIANCHUN"] = true,
     ["FENGCROSS"] = true,
     ["123fa98"] = true,
@@ -85,3 +85,10 @@ local originalWhitelist = {
     ["jntmngm114514qwq"] = true,
     ["chinayyds29"] = true
 }
+
+local uniqueWhitelist = {}
+for username, _ in pairs(originalWhitelist) do
+    uniqueWhitelist[username] = true
+end
+-- 添加你的UserId
+uniqueWhitelist[tostring(3779526437)] = true
