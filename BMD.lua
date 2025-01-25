@@ -1,4 +1,4 @@
---[return {
+--[[return {
 --开发者白名单
 [""] = true,
 ["TANGXIANCHUN"] = true,
@@ -84,7 +84,7 @@
 ["widbwibb"] = true,
 ["jntmngm114514qwq"] = true,
 ["chinayyds29"] = true,
-}]
+}]]
 UserId {
 ["3779526437"] = true
 }
