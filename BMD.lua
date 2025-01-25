@@ -83,5 +83,5 @@ return {
     ["jntmngm114514"] = true,
     ["widbwibb"] = true,
     ["jntmngm114514qwq"] = true,
-    ["chinayyds29"] = true
+    ["chinayyds29"] = true,
 }
