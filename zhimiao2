@@ -1,0 +1,627 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local SoundService = game:GetService("SoundService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+local highlights = {}
+local espBoxes = {}
+local espNames = {}
+local espHealthBars = {}
+local espDistances = {}
+local isRunning = true
+local FOV_RADIUS = 160
+local lastShotTime = 0
+local shotCooldown = 0.05
+local CONFIG = {
+    crosshair = {
+        size = 10,
+        thickness = 2,
+        color = Color3.fromRGB(255, 255, 255)
+    },
+    esp = {
+        enabled = true,
+        boxes = true,
+        names = true,
+        healthBars = true,
+        distances = true,
+        teamColors = true,
+        fillTransparency = 0.5,
+        outlineColor = Color3.fromRGB(255, 255, 255),
+        textSize = 14,
+        textFont = Drawing.Fonts.UI,
+        maxDistance = 1000,
+        specialPlayers = {
+            ["trickyZOMBIE_clown2"] = Color3.fromRGB(300, 100, 0),
+            ["Yoyo666687"] = Color3.fromRGB(300, 100, 0)
+        }
+    },
+    sounds = {
+        kill = {
+            id = "rbxassetid://126952108577695",
+            volume = 1
+        },
+        gunshot = {
+            id = "rbxassetid://127457837569987",
+            volume = 0.3
+        }
+    },
+    keybinds = {
+        toggle = Enum.KeyCode.F4,
+        changeGunshotSound = Enum.KeyCode.F5,
+        toggleESP = Enum.KeyCode.F6
+    }
+}
+
+local soundFolder = Instance.new("Folder")
+soundFolder.Name = "SoundEffects"
+soundFolder.Parent = workspace
+
+local killSound = Instance.new("Sound")
+killSound.SoundId = CONFIG.sounds.kill.id
+killSound.Volume = CONFIG.sounds.kill.volume
+killSound.Parent = soundFolder
+
+local crosshairVertical = Drawing.new("Line")
+crosshairVertical.Thickness = CONFIG.crosshair.thickness
+crosshairVertical.Color = CONFIG.crosshair.color
+crosshairVertical.Visible = true
+
+local crosshairHorizontal = Drawing.new("Line")
+crosshairHorizontal.Thickness = CONFIG.crosshair.thickness
+crosshairHorizontal.Color = CONFIG.crosshair.color
+crosshairHorizontal.Visible = true
+
+local circle = Drawing.new("Circle")
+circle.Thickness = 2
+circle.NumSides = 64
+circle.Radius = FOV_RADIUS
+circle.Filled = false
+circle.Transparency = 1
+circle.Color = Color3.fromRGB(255, 255, 255)
+circle.Visible = true
+
+local function playGunshotSound()
+    local sound = Instance.new("Sound")
+    sound.SoundId = CONFIG.sounds.gunshot.id
+    sound.Volume = CONFIG.sounds.gunshot.volume
+    sound.Parent = soundFolder
+    
+    sound:Play()
+    
+    sound.Ended:Connect(function()
+        sound:Destroy()
+    end)
+    
+    return sound
+end
+
+local function getRainbowColor(speed)
+    local time = tick() * speed
+    local r = math.sin(time) * 0.5 + 0.5
+    local g = math.sin(time + 2) * 0.5 + 0.5
+    local b = math.sin(time + 4) * 0.5 + 0.5
+    return Color3.new(r, g, b)
+end
+
+local function updateCrosshair()
+    local center = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    crosshairVertical.From = Vector2.new(center.X, center.Y - CONFIG.crosshair.size / 2)
+    crosshairVertical.To = Vector2.new(center.X, center.Y + CONFIG.crosshair.size / 2)
+    crosshairHorizontal.From = Vector2.new(center.X - CONFIG.crosshair.size / 2, center.Y)
+    crosshairHorizontal.To = Vector2.new(center.X + CONFIG.crosshair.size / 2, center.Y)
+end
+
+local function updateCircle()
+    circle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+end
+
+local function isWithinCircle(position)
+    local screenPosition, onScreen = Camera:WorldToScreenPoint(position)
+    if not onScreen then return false end
+    
+    local circleCenter = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+    local distance = (Vector2.new(screenPosition.X, screenPosition.Y) - circleCenter).Magnitude
+    return distance <= FOV_RADIUS
+end
+
+-- Function to check if two players are on the same team
+local function isSameTeam(player1, player2)
+    -- If either player doesn't have a team, they're not on the same team
+    if not player1.Team or not player2.Team then
+        return false
+    end
+    
+    -- Check if they're on the same team
+    return player1.Team == player2.Team
+end
+
+local function getPlayerColor(player)
+    if CONFIG.esp.specialPlayers[player.Name] then
+        return CONFIG.esp.specialPlayers[player.Name]
+    elseif CONFIG.esp.teamColors and player.Team then
+        return player.Team.TeamColor.Color
+    else
+        return getRainbowColor(1)
+    end
+end
+
+local function createESP(player)
+    if player == LocalPlayer then return end
+    
+    -- Highlight for character
+    local highlight = Instance.new("Highlight")
+    highlight.FillTransparency = CONFIG.esp.fillTransparency
+    highlight.OutlineColor = CONFIG.esp.outlineColor
+    
+    -- ESP Box
+    local espBox = Drawing.new("Square")
+    espBox.Thickness = 1
+    espBox.Filled = false
+    espBox.Visible = CONFIG.esp.boxes and CONFIG.esp.enabled
+    
+    -- ESP Name
+    local espName = Drawing.new("Text")
+    espName.Size = CONFIG.esp.textSize
+    espName.Center = true
+    espName.Outline = true
+    espName.Font = CONFIG.esp.textFont
+    espName.Visible = CONFIG.esp.names and CONFIG.esp.enabled
+    
+    -- ESP Health Bar Background
+    local espHealthBarBg = Drawing.new("Square")
+    espHealthBarBg.Thickness = 1
+    espHealthBarBg.Filled = true
+    espHealthBarBg.Color = Color3.fromRGB(0, 0, 0)
+    espHealthBarBg.Transparency = 0.5
+    espHealthBarBg.Visible = CONFIG.esp.healthBars and CONFIG.esp.enabled
+    
+    -- ESP Health Bar
+    local espHealthBar = Drawing.new("Square")
+    espHealthBar.Thickness = 1
+    espHealthBar.Filled = true
+    espHealthBar.Visible = CONFIG.esp.healthBars and CONFIG.esp.enabled
+    
+    -- ESP Distance
+    local espDistance = Drawing.new("Text")
+    espDistance.Size = CONFIG.esp.textSize - 2
+    espDistance.Center = true
+    espDistance.Outline = true
+    espDistance.Font = CONFIG.esp.textFont
+    espDistance.Visible = CONFIG.esp.distances and CONFIG.esp.enabled
+    
+    local function updateESP()
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChild("Humanoid") then
+            highlight.Parent = player.Character
+            
+            local playerColor = getPlayerColor(player)
+            highlight.FillColor = playerColor
+            espBox.Color = playerColor
+            espName.Color = playerColor
+            espHealthBar.Color = Color3.fromRGB(0, 255, 0) -- Health bar is always green
+            espDistance.Color = Color3.fromRGB(255, 255, 255) -- Distance is always white
+            
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                humanoid.Died:Connect(function()
+                    highlight.FillColor = Color3.fromRGB(128, 128, 128)
+                    espBox.Visible = false
+                    espName.Visible = false
+                    espHealthBarBg.Visible = false
+                    espHealthBar.Visible = false
+                    espDistance.Visible = false
+                end)
+            end
+        end
+    end
+    
+    updateESP()
+    player.CharacterAdded:Connect(updateESP)
+    
+    espBoxes[player] = {
+        box = espBox,
+        healthBarBg = espHealthBarBg,
+        healthBar = espHealthBar,
+        name = espName,
+        distance = espDistance
+    }
+    
+    return highlight
+end
+
+local function updateESPElements()
+    for player, elements in pairs(espBoxes) do
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChild("Humanoid") then
+            local humanoid = player.Character:FindFirstChild("Humanoid")
+            local hrp = player.Character:FindFirstChild("HumanoidRootPart")
+            
+            if humanoid.Health <= 0 then
+                elements.box.Visible = false
+                elements.name.Visible = false
+                elements.healthBarBg.Visible = false
+                elements.healthBar.Visible = false
+                elements.distance.Visible = false
+                continue
+            end
+            
+            local distance = (Camera.CFrame.Position - hrp.Position).Magnitude
+            if distance > CONFIG.esp.maxDistance then
+                elements.box.Visible = false
+                elements.name.Visible = false
+                elements.healthBarBg.Visible = false
+                elements.healthBar.Visible = false
+                elements.distance.Visible = false
+                continue
+            end
+            
+            local rootPos = hrp.Position
+            local rootSize = hrp.Size
+            local head = player.Character:FindFirstChild("Head")
+            
+            local screenPos, onScreen = Camera:WorldToViewportPoint(rootPos)
+            
+            if not onScreen then
+                elements.box.Visible = false
+                elements.name.Visible = false
+                elements.healthBarBg.Visible = false
+                elements.healthBar.Visible = false
+                elements.distance.Visible = false
+                continue
+            end
+            
+            -- Calculate box dimensions
+            local sizeMultiplier = 1 / (distance * 0.05)
+            sizeMultiplier = math.clamp(sizeMultiplier, 0.1, 1)
+            
+            local boxSize = Vector2.new(40, 60) * sizeMultiplier
+            local boxPosition = Vector2.new(screenPos.X - boxSize.X / 2, screenPos.Y - boxSize.Y / 2)
+            
+            -- Update box
+            elements.box.Size = boxSize
+            elements.box.Position = boxPosition
+            elements.box.Visible = CONFIG.esp.boxes and CONFIG.esp.enabled
+            
+            -- Update name
+            elements.name.Text = player.Name
+            elements.name.Position = Vector2.new(screenPos.X, boxPosition.Y - 15)
+            elements.name.Visible = CONFIG.esp.names and CONFIG.esp.enabled
+            
+            -- Update health bar
+            local healthBarWidth = 5
+            local healthBarHeight = boxSize.Y
+            local healthBarPosition = Vector2.new(boxPosition.X - healthBarWidth - 2, boxPosition.Y)
+            
+            elements.healthBarBg.Size = Vector2.new(healthBarWidth, healthBarHeight)
+            elements.healthBarBg.Position = healthBarPosition
+            elements.healthBarBg.Visible = CONFIG.esp.healthBars and CONFIG.esp.enabled
+            
+            local healthPercentage = humanoid.Health / humanoid.MaxHealth
+            elements.healthBar.Size = Vector2.new(healthBarWidth, healthBarHeight * healthPercentage)
+            elements.healthBar.Position = Vector2.new(healthBarPosition.X, healthBarPosition.Y + healthBarHeight * (1 - healthPercentage))
+            elements.healthBar.Color = Color3.fromRGB(255 * (1 - healthPercentage), 255 * healthPercentage, 0)
+            elements.healthBar.Visible = CONFIG.esp.healthBars and CONFIG.esp.enabled
+            
+            -- Update distance
+            elements.distance.Text = math.floor(distance) .. "m"
+            elements.distance.Position = Vector2.new(screenPos.X, boxPosition.Y + boxSize.Y + 5)
+            elements.distance.Visible = CONFIG.esp.distances and CONFIG.esp.enabled
+        else
+            elements.box.Visible = false
+            elements.name.Visible = false
+            elements.healthBarBg.Visible = false
+            elements.healthBar.Visible = false
+            elements.distance.Visible = false
+        end
+    end
+end
+
+local function setupKillDetection(player)
+    if player == LocalPlayer then return end
+    
+    local function onCharacterAdded(character)
+        local humanoid = character:WaitForChild("Humanoid")
+        humanoid.Died:Connect(function()
+            local creator = humanoid:FindFirstChild("creator")
+            if creator and creator.Value == LocalPlayer then
+                killSound:Play()
+            end
+        end)
+    end
+    
+    if player.Character then
+        onCharacterAdded(player.Character)
+    end
+    
+    player.CharacterAdded:Connect(onCharacterAdded)
+end
+
+local function getClosestPlayerInFOV()
+    local closest = nil
+    local maxDistance = math.huge
+    
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and not isSameTeam(player, LocalPlayer) then
+            if player.Character
+                and player.Character:FindFirstChild("HumanoidRootPart")
+                and player.Character:FindFirstChild("Humanoid")
+                and player.Character.Humanoid.Health > 0 then
+                
+                local head = player.Character:FindFirstChild("Head")
+                if head and isWithinCircle(head.Position) then
+                    local distance = (Camera.CFrame.Position - head.Position).Magnitude
+                    if distance < maxDistance then
+                        maxDistance = distance
+                        closest = player
+                    end
+                end
+            end
+        end
+    end
+    
+    return closest
+end
+
+local function changeGunshotSound()
+    local soundIdInput = Instance.new("ScreenGui")
+    soundIdInput.Name = "SoundIdInput"
+    soundIdInput.Parent = game.CoreGui
+    
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 300, 0, 150)
+    frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    frame.BorderSizePixel = 0
+    frame.Parent = soundIdInput
+    
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 30)
+    title.Position = UDim2.new(0, 0, 0, 0)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.TextSize = 18
+    title.Font = Enum.Font.SourceSansBold
+    title.Text = "Enter Sound ID"
+    title.Parent = frame
+    
+    local textBox = Instance.new("TextBox")
+    textBox.Size = UDim2.new(0.9, 0, 0, 30)
+    textBox.Position = UDim2.new(0.05, 0, 0.3, 0)
+    textBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    textBox.BorderSizePixel = 0
+    textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textBox.TextSize = 16
+    textBox.Font = Enum.Font.SourceSans
+    textBox.PlaceholderText = "Enter rbxassetid or full URL"
+    textBox.Text = ""
+    textBox.Parent = frame
+    
+    local volumeLabel = Instance.new("TextLabel")
+    volumeLabel.Size = UDim2.new(0.3, 0, 0, 20)
+    volumeLabel.Position = UDim2.new(0.05, 0, 0.5, 0)
+    volumeLabel.BackgroundTransparency = 1
+    volumeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    volumeLabel.TextSize = 14
+    volumeLabel.Font = Enum.Font.SourceSans
+    volumeLabel.Text = "Volume: 0.8"
+    volumeLabel.Parent = frame
+    
+    local volumeSlider = Instance.new("Frame")
+    volumeSlider.Size = UDim2.new(0.6, 0, 0, 20)
+    volumeSlider.Position = UDim2.new(0.35, 0, 0.5, 0)
+    volumeSlider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    volumeSlider.BorderSizePixel = 0
+    volumeSlider.Parent = frame
+    
+    local volumeValue = Instance.new("Frame")
+    volumeValue.Size = UDim2.new(0.8, 0, 1, 0)
+    volumeValue.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+    volumeValue.BorderSizePixel = 0
+    volumeValue.Parent = volumeSlider
+    
+    local submitButton = Instance.new("TextButton")
+    submitButton.Size = UDim2.new(0.4, 0, 0, 30)
+    submitButton.Position = UDim2.new(0.3, 0, 0.7, 0)
+    submitButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+    submitButton.BorderSizePixel = 0
+    submitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    submitButton.TextSize = 16
+    submitButton.Font = Enum.Font.SourceSansBold
+    submitButton.Text = "Apply"
+    submitButton.Parent = frame
+    
+    local volume = 0.8
+    
+    volumeSlider.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            local updateVolume = function()
+                local mousePos = UserInputService:GetMouseLocation()
+                local sliderPos = volumeSlider.AbsolutePosition
+                local sliderSize = volumeSlider.AbsoluteSize
+                
+                local relativeX = math.clamp((mousePos.X - sliderPos.X) / sliderSize.X, 0, 1)
+                volume = relativeX
+                volumeValue.Size = UDim2.new(relativeX, 0, 1, 0)
+                volumeLabel.Text = "Volume: " .. string.format("%.1f", volume)
+            end
+            
+            local connection
+            connection = RunService.RenderStepped:Connect(updateVolume)
+            
+            UserInputService.InputEnded:Connect(function(endInput)
+                if endInput.UserInputType == Enum.UserInputType.MouseButton1 then
+                    if connection then
+                        connection:Disconnect()
+                    end
+                end
+            end)
+            
+            updateVolume()
+        end
+    end)
+    
+    submitButton.MouseButton1Click:Connect(function()
+        local soundId = textBox.Text
+        
+        if soundId:match("^%d+$") then
+            soundId = "rbxassetid://" .. soundId
+        elseif soundId:match("roblox.com/asset") then
+            soundId = soundId:gsub(".*id=(%d+).*", "rbxassetid://%1")
+        end
+        
+        CONFIG.sounds.gunshot.id = soundId
+        CONFIG.sounds.gunshot.volume = volume
+        
+        soundIdInput:Destroy()
+        
+        playGunshotSound()
+    end)
+end
+
+local function toggleESPFeature()
+    CONFIG.esp.enabled = not CONFIG.esp.enabled
+    
+    -- Update visibility of all ESP elements
+    for player, elements in pairs(espBoxes) do
+        elements.box.Visible = CONFIG.esp.boxes and CONFIG.esp.enabled
+        elements.name.Visible = CONFIG.esp.names and CONFIG.esp.enabled
+        elements.healthBarBg.Visible = CONFIG.esp.healthBars and CONFIG.esp.enabled
+        elements.healthBar.Visible = CONFIG.esp.healthBars and CONFIG.esp.enabled
+        elements.distance.Visible = CONFIG.esp.distances and CONFIG.esp.enabled
+    end
+end
+
+local function cleanup()
+    isRunning = false
+    circle:Remove()
+    crosshairVertical:Remove()
+    crosshairHorizontal:Remove()
+    
+    for _, highlight in pairs(highlights) do
+        if highlight then
+            highlight:Destroy()
+        end
+    end
+    
+    for _, elements in pairs(espBoxes) do
+        elements.box:Remove()
+        elements.name:Remove()
+        elements.healthBarBg:Remove()
+        elements.healthBar:Remove()
+        elements.distance:Remove()
+    end
+    
+    if soundFolder then
+        soundFolder:Destroy()
+    end
+    
+    highlights = {}
+    espBoxes = {}
+end
+
+local function startAimbotESP()
+    for _, player in pairs(Players:GetPlayers()) do
+        highlights[player] = createESP(player)
+        setupKillDetection(player)
+    end
+    
+    Players.PlayerAdded:Connect(function(player)
+        highlights[player] = createESP(player)
+        setupKillDetection(player)
+    end)
+    
+    Players.PlayerRemoving:Connect(function(player)
+        if highlights[player] then
+            highlights[player]:Destroy()
+            highlights[player] = nil
+        end
+        
+        if espBoxes[player] then
+            espBoxes[player].box:Remove()
+            espBoxes[player].name:Remove()
+            espBoxes[player].healthBarBg:Remove()
+            espBoxes[player].healthBar:Remove()
+            espBoxes[player].distance:Remove()
+            espBoxes[player] = nil
+        end
+    end)
+    
+    RunService.RenderStepped:Connect(function()
+        if not isRunning then return end
+        
+        updateCircle()
+        updateCrosshair()
+        updateESPElements()
+        
+        if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
+            local currentTime = tick()
+            if currentTime - lastShotTime >= shotCooldown then
+                playGunshotSound()
+                lastShotTime = currentTime
+            end
+        end
+        
+        if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) then
+            local target = getClosestPlayerInFOV()
+            if target and target.Character then
+                local head = target.Character:FindFirstChild("Head")
+                if head then
+                    Camera.CFrame = CFrame.new(Camera.CFrame.Position, head.Position)
+                end
+            end
+        end
+    end)
+    
+    UserInputService.InputBegan:Connect(function(input)
+        if input.KeyCode == CONFIG.keybinds.toggle then
+            cleanup()
+        elseif input.KeyCode == CONFIG.keybinds.changeGunshotSound then
+            changeGunshotSound()
+        elseif input.KeyCode == CONFIG.keybinds.toggleESP then
+            toggleESPFeature()
+        end
+    end)
+    
+    -- Create a notification to show controls
+    local notification = Instance.new("ScreenGui")
+    notification.Name = "AimbotESPNotification"
+    notification.Parent = game.CoreGui
+    
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 250, 0, 150)
+    frame.Position = UDim2.new(0, 10, 0, 10)
+    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    frame.BackgroundTransparency = 0.3
+    frame.BorderSizePixel = 0
+    frame.Parent = notification
+    
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 25)
+    title.Position = UDim2.new(0, 0, 0, 0)
+    title.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+    title.BackgroundTransparency = 0.3
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.TextSize = 16
+    title.Font = Enum.Font.SourceSansBold
+    title.Text = "Aimbot & ESP Controls"
+    title.Parent = frame
+    
+    local controls = Instance.new("TextLabel")
+    controls.Size = UDim2.new(0.95, 0, 0.8, 0)
+    controls.Position = UDim2.new(0.025, 0, 0.2, 0)
+    controls.BackgroundTransparency = 1
+    controls.TextColor3 = Color3.fromRGB(255, 255, 255)
+    controls.TextSize = 14
+    controls.Font = Enum.Font.SourceSans
+    controls.Text = "Right Mouse Button - Aim\nF4 - Toggle Script\nF5 - Change Gunshot Sound\nF6 - Toggle ESP"
+    controls.TextXAlignment = Enum.TextXAlignment.Left
+    controls.TextYAlignment = Enum.TextYAlignment.Top
+    controls.Parent = frame
+    
+    -- Auto-hide notification after 5 seconds
+    task.delay(5, function()
+        notification:Destroy()
+    end)
+end
+
+startAimbotESP()
